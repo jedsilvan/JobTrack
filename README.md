@@ -39,12 +39,12 @@ A Kanban-style job application tracker. Add applications, drag them through stag
 ## 🏗 Architecture
 
 ```
-┌─────────────────────┐         HTTPS/JSON        ┌──────────────────────┐
-│   React (Vite SPA)  │ ─────────────────────────▶ │   FastAPI Backend    │
-│                      │ ◀───────────────────────── │                      │
-│  - Kanban board      │        REST API            │  - /applications     │
-│  - Stats dashboard   │                             │  - /applications/:id │
-│  - Application form  │                             │  - /tags/extract     │
+┌─────────────────────┐         HTTPS/JSON          ┌──────────────────────┐
+│   React (Vite SPA)  │ ─────────────────────────▶ │   FastAPI Backend     │
+│                     │ ◀───────────────────────── │                       │
+│  - Kanban board     │        REST API             │  - /applications     │
+│  - Stats dashboard  │                             │  - /applications/:id │
+│  - Application form │                             │  - /tags/extract     │
 └─────────────────────┘                             └──────────┬───────────┘
                                                                   │
                                                          SQLAlchemy ORM
