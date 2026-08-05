@@ -1,75 +1,56 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from ..schemas import Application
-from ..db import db
+from .. import crud, schemas, models
+from ..db import get_db
 
 router = APIRouter(prefix="/applications", tags=["applications"])
 
-# Helper function to handle finding an application (used in update/delete)
-def find_application(app_id: int) -> Application | None:
-    for app in db:
-        if app.id == app_id:
-            return app
-    return None
 
-@router.get("/", response_model=List[Application])
+@router.get("/", response_model=List[schemas.Application])
 def list_applications(
-    status: Optional[str] = None,
-    search: Optional[str] = None
+    status: Optional[models.Status] = None,
+    search: Optional[str] = None,
+    db: Session = Depends(get_db),
 ):
     """Get all applications, optionally filtered by status or search term."""
-    results = db.copy()
-    
-    if status:
-        results = [app for app in results if app.status == status]
-    
-    if search:
-        search_lower = search.lower()
-        results = [
-            app for app in results 
-            if search_lower in app.company.lower() or 
-               search_lower in app.role.lower() or
-               search_lower in (app.notes or "").lower()
-        ]
-    
-    return results
+    return crud.get_applications(db, status=status, search=search)
 
-@router.post("/", response_model=Application, status_code=201)
-def create_application(app_data: Application):
+
+@router.get("/{application_id}", response_model=schemas.Application)
+def get_application(application_id: int, db: Session = Depends(get_db)):
+    """Get a single application by ID."""
+    db_app = crud.get_application(db, application_id)
+    if db_app is None:
+        raise HTTPException(status_code=404, detail="Application not found")
+    return db_app
+
+
+@router.post("/", response_model=schemas.Application, status_code=201)
+def create_application(app_data: schemas.ApplicationCreate, db: Session = Depends(get_db)):
     """Create a new application record."""
-    # Generate unique ID if not provided
-    app_data.id = len(db) + 1
-    
-    db.append(app_data)
-    
-    return app_data
+    return crud.create_application(db, app_data)
 
-@router.patch("/{application_id}", response_model=Application)
-def update_application(application_id: int, app_data: Application):
-    """Update an existing application."""
-    for i, app in enumerate(db):
-        if app.id == application_id:
-            db[i] = app_data
-            return app_data
-    
-    raise HTTPException(status_code=404, detail="Application not found")
+
+@router.patch("/{application_id}", response_model=schemas.Application)
+def update_application(
+    application_id: int, app_data: schemas.ApplicationUpdate, db: Session = Depends(get_db)
+):
+    """Partially update an application — only fields you send are changed."""
+    db_app = crud.get_application(db, application_id)
+    if db_app is None:
+        raise HTTPException(status_code=404, detail="Application not found")
+    return crud.update_application(db, db_app, app_data)
+
 
 @router.delete("/{application_id}", response_model=dict)
-def delete_application(application_id: int):
+def delete_application(application_id: int, db: Session = Depends(get_db)):
     """Delete an application."""
-    for i, app in enumerate(db):
-        if app.id == application_id:
-            deleted = db.pop(i)
-            return {"message": "Application deleted", "deleted_app": deleted}
-    
-    raise HTTPException(status_code=404, detail="Application not found")
+    db_app = crud.get_application(db, application_id)
+    if db_app is None:
+        raise HTTPException(status_code=404, detail="Application not found")
 
-@router.get("/{application_id}", response_model=Application)
-def get_application(application_id: int):
-    """Get a single application by ID."""
-    for app in db:
-        if app.id == application_id:
-            return app
-    
-    raise HTTPException(status_code=404, detail="Application not found")
+    deleted = schemas.Application.model_validate(db_app)
+    crud.delete_application(db, db_app)
+    return {"message": "Application deleted", "deleted_app": deleted}

@@ -1,29 +1,35 @@
-from fastapi import APIRouter
-from ..db import db
+from fastapi import APIRouter, Depends
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
+from .. import models
+from ..db import get_db
 
 router = APIRouter(prefix="/stats", tags=["stats"])
 
+
 @router.get("/", response_model=dict)
-def get_stats():
+def get_stats(db: Session = Depends(get_db)):
     """Get analytics statistics."""
-    if not db:
-        return {
-            "total_applications": 0,
-            "applications_by_status": {},
-            "conversion_rate": 0.0
-        }
-    
-    total = len(db)
-    status_counts = {}
-    for app in db:
-        status_counts[app.status] = status_counts.get(app.status, 0) + 1
-    
-    # Calculate conversion rate (interview to offer)
-    interview_count = status_counts.get("interview", 0)
-    offer_count = status_counts.get("offer", 0)
-    
+    total = db.query(func.count(models.Application.id)).scalar()
+
+    status_counts = {status.value: 0 for status in models.Status}
+    rows = (
+        db.query(models.Application.status, func.count(models.Application.id))
+        .group_by(models.Application.status)
+        .all()
+    )
+    for status, count in rows:
+        status_counts[status.value] = count
+
+    interview_count = status_counts["interview"]
+    offer_count = status_counts["offer"]
+    conversion_rate = (
+        round(offer_count / interview_count * 100, 2) if interview_count > 0 else 0.0
+    )
+
     return {
         "total_applications": total,
         "applications_by_status": status_counts,
-        "conversion_rate": round((offer_count / interview_count * 100), 2) if interview_count > 0 else 0.0
+        "conversion_rate": conversion_rate,
     }
