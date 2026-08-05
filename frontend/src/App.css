@@ -1,16 +1,48 @@
-:root {
-  --bg-light: white;
-  --text-light: black;
-  --bg-dark: black;
-  --text-dark: white;
+@import "tailwindcss";
+
+@theme {
+  /* Core Theme Colors (Default/Light Mode) */
+  --color-primary: #1A1A1A;
+  --color-secondary: #666666;
+  --color-tertiary: #C5C5C5;
+
+  /* Semantic UI Colors - Light Mode */
+  --color-bg-main: #FFFFFF;
+  --color-card: #F9F9F9;
+  --color-border: #E0E0E0;
+
+  /* Pill Colors */
+  --color-pill-bg-blue: #E3F2FD;
+  --color-pill-bg-green: #E8F5E9;
+  --color-pill-bg-red: #FFDDE5;
+  --color-pill-text-blue: #74AEE5;
+  --color-pill-text-green: #6AA36C;
+  --color-pill-text-red: #EF4444;
 }
 
-html {
-  background-color: var(--bg-light);
-  color: var(--text-light);
-}
+/* Overrides for Dark Mode */
+@layer base {
+  .dark {
+    /* Override the actual primary/secondary/tertiary values */
+    --color-primary: #FFFFFF;
+    --color-secondary: #A8A79E;
+    --color-tertiary: #605E5A;
 
-html.dark {
-  background-color: var(--bg-dark);
-  color: var(--text-dark);
+    /* Override the semantic background colors */
+    --color-bg-main: #1A1A19;
+    --color-card: #2C2C2A;
+    --color-border: #41413F;
+
+    /* Override pill color */
+    --color-pill-bg-blue: #032042;
+    --color-pill-bg-green: #11260F;
+    --color-pill-bg-red: #730e18;
+    --color-pill-text-blue: #74AEE5;
+    --color-pill-text-green: #0B9E0B;
+    --color-pill-text-red: #c16672;
+  }
+
+  body {
+    @apply bg-bg-main text-primary;
+  }
 }

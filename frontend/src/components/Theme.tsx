@@ -28,8 +28,17 @@ export default function ThemeToggle() {
   }, [isDark])
 
   return (
-    <button onClick={() => setIsDark((prevIsDark) => !prevIsDark)} className="absolute cursor-pointer right-2 top-2">
-      {isDark ? <SunIcon className="size-6" /> : <MoonIcon className="size-6" />}   
-    </button>
+    <div className="flex gap-1 bg-(--bg-light-100) dark:bg-(--bg-dark-200) w-fit p-1 rounded-full absolute right-2 top-2">
+      <SunIcon
+        className={`size-6 p-1 cursor-pointer ${!isDark ? 'bg-(--bg-dark-100) rounded-full' : ''}`}
+        onClick={() => setIsDark(false)}
+        aria-label="Set light theme"
+      />
+      <MoonIcon
+        className={`size-6 p-1 cursor-pointer ${isDark ? 'bg-(--bg-dark-100) rounded-full' : ''}`}
+        onClick={() => setIsDark(true)}
+        aria-label="Set dark theme"
+      />
+    </div>
   )
 }
