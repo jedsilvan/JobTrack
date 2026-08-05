@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 
 export default function ThemeToggle() {
   // Determine the initial theme preference from localStorage or system preference
@@ -27,11 +28,8 @@ export default function ThemeToggle() {
   }, [isDark])
 
   return (
-    <button
-      onClick={() => setIsDark((prevIsDark) => !prevIsDark)}
-      className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium transition-colors"
-    >
-      {isDark ? '☀️' : '🌙'}
+    <button onClick={() => setIsDark((prevIsDark) => !prevIsDark)} className="absolute cursor-pointer right-2 top-2">
+      {isDark ? <SunIcon className="size-6" /> : <MoonIcon className="size-6" />}   
     </button>
   )
 }

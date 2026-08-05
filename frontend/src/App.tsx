@@ -3,10 +3,12 @@ import ThemeToggle from './components/ThemeToggle'
 
 function App() {
   return (
-    <div className="">
+    <>
       <ThemeToggle />
-      <h1 className="text-3xl">JobTrack</h1>
-    </div>
+      <div className="max-w-screen-lg mx-auto">
+        <h1 className="text-3xl">JobTrack</h1>
+      </div>
+    </>
   )
 }
 
