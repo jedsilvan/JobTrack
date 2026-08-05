@@ -1,9 +1,6 @@
 # backend/app/main.py
 from fastapi import FastAPI
-from datetime import datetime
-
 from .routers import applications, stats, tags # Import the new routers
-from .schemas import Application
 
 app = FastAPI()
 
