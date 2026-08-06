@@ -7,6 +7,7 @@ import Button from './Button'
 import Modal from './Modal'
 import TextArea from './TextArea'
 import Dropdown from './Dropdown'
+import Calendar from './Calendar'
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -60,15 +61,20 @@ function ModalContent({
         className="w-full mb-3"
         label="Role"
       />
-      <Dropdown
-        options={[
-          { value: 'Test', label: 'Text' },
-          { value: 'Test 2', label: 'Text 2' },
-        ]}
-        selectedValue=""
-        label="Status"
-        className="w-full mb-3"
-      />
+      <div className="flex gap-2 mb-3">
+        <div className="w-50">
+          <Dropdown
+            options={[
+              { value: 'Test', label: 'Text' },
+              { value: 'Test 2', label: 'Text 2' },
+            ]}
+            selectedValue=""
+            label="Status"
+            className="w-full"
+          />
+        </div>
+        <Calendar label="Applied date" className="w-50" />
+      </div>
       <Input
         placeholder="https://..."
         className="w-full mb-3"

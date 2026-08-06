@@ -33,7 +33,7 @@ const Dropdown = ({
   }
 
   return (
-    <>
+    <div>
       {label && (
         <label className="block text-xs text-tertiary mb-1">{label}</label>
       )}
@@ -68,7 +68,7 @@ const Dropdown = ({
           </ul>
         )}
       </div>
-    </>
+    </div>
   )
 }
 
