@@ -8,6 +8,7 @@ import Modal from './Modal'
 import TextArea from './TextArea'
 import Dropdown from './Dropdown'
 import Calendar from './Calendar'
+import { APPLICATION_STATUS_OPTIONS } from '../models'
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -64,10 +65,7 @@ function ModalContent({
       <div className="flex gap-2 mb-3">
         <div className="w-50">
           <Dropdown
-            options={[
-              { value: 'Test', label: 'Text' },
-              { value: 'Test 2', label: 'Text 2' },
-            ]}
+            options={APPLICATION_STATUS_OPTIONS}
             selectedValue=""
             label="Status"
             className="w-full"
