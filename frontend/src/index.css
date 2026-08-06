@@ -16,6 +16,7 @@ hr {
   border-color: var(--color-border);
 }
 
-input {
+input,
+textarea {
   outline: 0;
 }

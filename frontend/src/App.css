@@ -5,7 +5,7 @@
   --color-primary: #1a1a1a;
   --color-secondary: #666666;
   --color-tertiary: #777777;
-  --color-brand-blue: #0D366B;
+  --color-brand-blue: #0d366b;
 
   /* Semantic UI Colors - Light Mode */
   --color-bg-main: #ffffff;
@@ -26,8 +26,8 @@
   .dark {
     /* Override the actual primary/secondary/tertiary values */
     --color-primary: #ffffff;
-    --color-secondary: #C3C2B7;
-    --color-tertiary: #C3C2B7;
+    --color-secondary: #c3c2b7;
+    --color-tertiary: #c3c2b7;
 
     /* Override the semantic background colors */
     --color-bg-main: #1a1a19;
