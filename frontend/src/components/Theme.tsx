@@ -28,14 +28,14 @@ export default function ThemeToggle() {
   }, [isDark])
 
   return (
-    <div className="flex gap-1 bg-(--bg-light-100) dark:bg-(--bg-dark-200) w-fit p-1 rounded-full absolute right-2 top-2">
+    <div className="flex gap-1 bg-(--color-border) w-fit p-1 rounded-full absolute right-2 top-2">
       <SunIcon
-        className={`size-6 p-1 cursor-pointer ${!isDark ? 'bg-(--bg-dark-100) rounded-full' : ''}`}
+        className={`size-6 p-1 cursor-pointer ${!isDark ? 'bg-(--color-card) rounded-full' : ''}`}
         onClick={() => setIsDark(false)}
         aria-label="Set light theme"
       />
       <MoonIcon
-        className={`size-6 p-1 cursor-pointer ${isDark ? 'bg-(--bg-dark-100) rounded-full' : ''}`}
+        className={`size-6 p-1 cursor-pointer ${isDark ? 'bg-(--color-card) rounded-full' : ''}`}
         onClick={() => setIsDark(true)}
         aria-label="Set dark theme"
       />

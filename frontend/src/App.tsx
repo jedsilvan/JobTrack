@@ -10,8 +10,8 @@ function App() {
       <Theme />
       <div className="max-w-screen-lg mx-auto my-8">
         <div className="flex items-center gap-4">
-          <BriefcaseIcon className="size-6" />
-          <h1 className="text-2xl text-primary">JobTrack</h1>
+          <BriefcaseIcon className="size-8" />
+          <h1 className="text-2xl text-primary font-medium">JobTrack</h1>
         </div>
         <Card />
       </div>
