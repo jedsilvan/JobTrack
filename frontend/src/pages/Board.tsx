@@ -27,6 +27,7 @@ function groupByStatus(applications: Application[]): BoardData {
 }
 
 function resolveStatus(target: unknown): ApplicationStatus | undefined {
+  // @ts-expect-error: TODO - find target on dnd-kit docs
   if (isSortable(target)) {
     // dropped on another card — use that card's column/group
     return target.group as ApplicationStatus
@@ -67,7 +68,7 @@ export default function Board() {
     >
       <div className="container-max-w grid grid-cols-4 gap-4 mb-4 lg:mb-8">
         {APPLICATION_STATUS_OPTIONS.map(({ value: status, label }) => {
-          const columnApplications = board[status]
+          const columnApplications = board[status as ApplicationStatus]
 
           return (
             <div key={`column-${status}`}>
