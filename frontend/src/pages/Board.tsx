@@ -2,7 +2,7 @@ import { JobCard } from "../components/Card";
 
 export default function Board() {
   return (
-    <div className="container-max-w columns-1 sm:columns-4">
+    <div className="container-max-w columns-1 sm:columns-4 mb-4 lg:mb-8">
       {Array.from({ length: 4 }).map((_, index) => (
         <div key={'card-' + index}>
           <div className="flex justify-between items-center mb-2">

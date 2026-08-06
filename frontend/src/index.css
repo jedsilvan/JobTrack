@@ -7,10 +7,15 @@
 
 .container-max-w {
   max-width: 992px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0 1.5rem;
 }
 
 hr {
   border-color: var(--color-border);
+}
+
+input {
+  outline: 0;
 }

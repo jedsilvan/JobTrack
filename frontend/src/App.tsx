@@ -9,13 +9,13 @@ import './App.css'
 export default function App() {
   return (
     <>
-      <Theme />
       <Header />
       <Navigation />
       <Routes>
         <Route path="/" element={<Board />} />
         <Route path="/stats" element={<Stats />} />
       </Routes>
+      <Theme />
     </>
   )
 }

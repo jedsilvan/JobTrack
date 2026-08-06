@@ -9,7 +9,7 @@ export default function Navigation() {
                 <NavLink 
                     to="/" 
                     className={({ isActive }) => 
-                        "flex items-center gap-1 pb-2 border-b " + 
+                        "flex items-center gap-2 pb-2 border-b " + 
                         (isActive ? "border-color-border text-primary/80" : "border-transparent")
                     }
                 >
@@ -19,7 +19,7 @@ export default function Navigation() {
                 <NavLink 
                     to="/stats" 
                     className={({ isActive }) => 
-                        "flex items-center gap-1 pb-2 border-b " + 
+                        "flex items-center gap-2 pb-2 border-b " + 
                         (isActive ? "border-color-border text-primary/80" : "border-transparent")
                     }
                 >
