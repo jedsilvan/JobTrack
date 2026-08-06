@@ -1,22 +1,19 @@
-import { BriefcaseIcon } from '@heroicons/react/24/outline'
-
-import Card from './components/Card'
+import { Routes, Route } from 'react-router-dom'
+import Header from './components/Header'
+import Board from './pages/Board'
+import Dashboard from './pages/Dashboard'
 import Theme from './components/Theme'
 import './App.css'
 
-function App() {
+export default function App() {
   return (
     <>
       <Theme />
-      <div className="max-w-screen-lg mx-auto my-8">
-        <div className="flex items-center gap-4">
-          <BriefcaseIcon className="size-8" />
-          <h1 className="text-2xl text-primary font-medium">JobTrack</h1>
-        </div>
-        <Card />
-      </div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/board" element={<Board />} />
+      </Routes>
     </>
   )
 }
-
-export default App

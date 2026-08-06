@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 
-export default function ThemeToggle() {
+export default function Theme() {
   // Determine the initial theme preference from localStorage or system preference
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === 'undefined') {
@@ -28,7 +28,7 @@ export default function ThemeToggle() {
   }, [isDark])
 
   return (
-    <div className="flex gap-1 bg-(--color-border) w-fit p-1 rounded-full absolute right-2 top-2">
+    <div className="flex gap-1 bg-(--color-border) w-fit p-1 rounded-full absolute right-2 bottom-2">
       <SunIcon
         className={`size-6 p-1 cursor-pointer ${!isDark ? 'bg-(--color-card) rounded-full' : ''}`}
         onClick={() => setIsDark(false)}

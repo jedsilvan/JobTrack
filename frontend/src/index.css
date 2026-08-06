@@ -4,3 +4,9 @@
 :root {
   --default-font-family: "Noto Sans", sans-serif;
 }
+
+.container-max-w {
+  max-width: 992px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
