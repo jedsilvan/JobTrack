@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
-import Header from './components/Header'
 import Board from './pages/Board'
-import Dashboard from './pages/Dashboard'
+import Header from './components/Header'
+import Navigation from './components/Navigation'
+import Stats from './pages/Stats'
 import Theme from './components/Theme'
 import './App.css'
 
@@ -10,12 +11,10 @@ export default function App() {
     <>
       <Theme />
       <Header />
-      <div>
-        <hr className="my-4 border-t"></hr>
-      </div>
+      <Navigation />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/board" element={<Board />} />
+        <Route path="/" element={<Board />} />
+        <Route path="/stats" element={<Stats />} />
       </Routes>
     </>
   )
