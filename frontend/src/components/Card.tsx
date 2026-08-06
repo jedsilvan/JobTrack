@@ -1,3 +1,4 @@
+import type { Application } from '../models'
 import Pill from './Pill'
 
 export default function Card({ children }: { children?: React.ReactNode }) {
@@ -8,11 +9,13 @@ export default function Card({ children }: { children?: React.ReactNode }) {
   )
 }
 
-export function JobCard() {
+export function ApplicationCard(application: Application) {
   return (
-    <div className="bg-(--color-card) hover:border-brand-blue rounded-xl border-1 border-solid border-border pt-1 pb-3 px-3 cursor-grab">
-      <h1 className="text-primary text-base text-md">Frontend engineer</h1>
-      <p className="text-sm text-tertiary mb-2">Nimbus Labs</p>
+    <div className="bg-(--color-card) hover:border-brand-blue rounded-xl border-1 border-solid border-border py-2 px-3 cursor-grab">
+      <h1 className="text-primary text-base text-sm font-medium mb-1">
+        {application.role}
+      </h1>
+      <p className="text-xs text-tertiary mb-2">{application.company}</p>
       <Pill />
     </div>
   )

@@ -28,7 +28,7 @@ export default function Theme() {
   }, [isDark])
 
   return (
-    <div className="flex gap-1 bg-(--color-border) w-fit p-1 rounded-full absolute right-2 bottom-2">
+    <div className="flex gap-1 bg-(--color-border) w-fit p-1 rounded-full h-fit mr-2">
       <SunIcon
         className={`size-6 p-1 cursor-pointer ${!isDark ? 'bg-(--color-card) rounded-full' : ''}`}
         onClick={() => setIsDark(false)}

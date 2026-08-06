@@ -3,7 +3,6 @@ import Board from './pages/Board'
 import Header from './components/Header'
 import Navigation from './components/Navigation'
 import Stats from './pages/Stats'
-import Theme from './components/Theme'
 import './App.css'
 
 export default function App() {
@@ -15,7 +14,6 @@ export default function App() {
         <Route path="/" element={<Board />} />
         <Route path="/stats" element={<Stats />} />
       </Routes>
-      <Theme />
     </>
   )
 }

@@ -9,6 +9,7 @@ import TextArea from './TextArea'
 import Dropdown from './Dropdown'
 import Calendar from './Calendar'
 import { APPLICATION_STATUS_OPTIONS } from '../models'
+import Theme from './Theme'
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -20,7 +21,8 @@ export default function Header() {
           <BriefcaseIcon className="size-8" />
           <h1 className="text-2xl text-primary font-medium">JobTrack</h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <Theme />
           <Input placeholder="Search applications" />
           <Button onClick={() => setIsModalOpen(true)}>
             <PlusIcon className="size-4 inline mb-0.5 mr-1" />
