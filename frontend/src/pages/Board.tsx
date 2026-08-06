@@ -1,5 +1,7 @@
 export default function Board() {
-    return (
-        <p>Board</p>
-    )
+  return (
+    <div className="container-max-w">
+      <p>Board</p>
+    </div>
+  )
 }

@@ -1,5 +1,7 @@
 export default function Dashboard() {
-    return (
-        <p>Dashboard</p>
-    )
+  return (
+    <div className="container-max-w">
+      <p>Dashboard</p>
+    </div>
+  )
 }

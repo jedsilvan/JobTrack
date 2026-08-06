@@ -10,6 +10,9 @@ export default function App() {
     <>
       <Theme />
       <Header />
+      <div>
+        <hr className="my-4 border-t"></hr>
+      </div>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/board" element={<Board />} />
