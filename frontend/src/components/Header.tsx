@@ -85,7 +85,8 @@ function ModalContent({
         className="w-full mb-4"
         label="Paste job description (for auto-tagging)"
       />
-      <Button type="submit" className="w-full">
+      {/* TODO: generate tags here using pills */}
+      <Button type="submit" className="w-full mb-2">
         <PlusIcon className="size-4 inline mb-0.5 mr-1" />
         Save application
       </Button>

@@ -2,7 +2,7 @@ import Pill from './Pill'
 
 export default function Card({ children }: { children?: React.ReactNode }) {
   return (
-    <div className="bg-(--color-card) rounded-xl border-1 border-solid border-border pt-1 pb-3 px-3">
+    <div className="bg-(--color-card) rounded-xl border-1 border-solid border-border p-3">
       {children}
     </div>
   )
