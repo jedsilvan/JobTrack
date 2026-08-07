@@ -1,17 +1,27 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-# Swap this for postgresql://user:pass@localhost/dbname in production
-SQLALCHEMY_DATABASE_URL = "sqlite:///./jobtrack.db"
+
+# Start: SQLite configuration (commented out for production PostgreSQL use)
+# SQLALCHEMY_DATABASE_URL = "sqlite:///./jobtrack.db"
+# engine = create_engine(
+#     SQLALCHEMY_DATABASE_URL,
+#     # only needed for SQLite
+#     connect_args={"check_same_thread": False},
+# )
+# End: SQLite configuration
+
+# SQLALCHEMY_DATABASE_URL = "postgresql://admin:admin@localhost:5432/jobtrack" # psycopg2 driver
+SQLALCHEMY_DATABASE_URL = "postgresql+psycopg://admin:admin@localhost:5432/jobtrack"  # psycopg (v3) driver
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
-    # only needed for SQLite
-    connect_args={"check_same_thread": False},
+    pool_pre_ping=True,
+    pool_size=5,
+    max_overflow=10,
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base = declarative_base()
 
 

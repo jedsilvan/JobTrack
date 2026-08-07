@@ -1,3 +1,4 @@
+# python3 -m scripts.seed_db
 import random
 from datetime import datetime, timedelta
 
@@ -51,8 +52,10 @@ def seed(count: int = 25):
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        if db.query(models.Application).count() > 0:
-            print("DB already has data — skipping seed.")
+        # Check if any applications exist (works for both SQLite and PostgreSQL)
+        existing_count = db.query(models.Application).count()
+        if existing_count > 0:
+            print(f"DB already has {existing_count} application(s) — skipping seed.")
             return
 
         applications = [make_fake_application() for _ in range(count)]
