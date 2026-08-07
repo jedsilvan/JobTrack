@@ -1,7 +1,7 @@
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, Tooltip } from 'recharts'
 
 import Card from '../components/Card'
-import { mockStatsOverTimeMonthly } from '../mock'
+import { mockStatsOverTime } from '../mock'
 
 export default function Stats() {
   return (
@@ -27,12 +27,12 @@ export default function Stats() {
       </div>
       <div className="mb-4">
         <Card>
-          <p className="text-sm text-secondary mb-1">Applications over time</p>
+          <p className="text-sm text-secondary mb-4">Applications over time</p>
           <LineChart
             style={{ width: '99%', maxHeight: '20vh', aspectRatio: 1.5 }}
-            margin={{ top: 10, right: 0, left: -25, bottom: 0 }}
+            margin={{ top: 10, right: 5, left: -25, bottom: 0 }}
             responsive
-            data={mockStatsOverTimeMonthly}
+            data={mockStatsOverTime}
           >
             <CartesianGrid
               vertical={false}
@@ -44,6 +44,9 @@ export default function Stats() {
               dataKey="period"
               padding={{ left: 0, right: 0 }}
               tick={{ fontSize: 12, fill: 'var(--color-primary)' }}
+              axisLine={false}
+              tickLine={false}
+              dy={10}
             />
             <YAxis
               dataKey="count"
@@ -52,6 +55,9 @@ export default function Stats() {
                 value === 0 || value === '0' ? '' : value
               }
               tick={{ fontSize: 12, fill: 'var(--color-primary)' }}
+              axisLine={false}
+              tickLine={false}
+              dx={-5}
             />
             <Tooltip
               cursor={{
@@ -76,22 +82,37 @@ export default function Stats() {
       </div>
       <div className="mb-4">
         <Card>
-          <p className="text-sm text-secondary mb-2">Conversion by stage</p>
-          <div className="flex items-center gap-8 mb-1">
-            <p className="text-xs text-tertiary">Applied</p>
-            <div className="w-full bg-(--color-border) h-2 rounded-full"></div>
+          <p className="text-sm text-secondary mb-4">Conversion by stage</p>
+          <div className="flex items-center mb-2">
+            <p className="text-xs text-tertiary mr-8">Applied</p>
+            <div className="w-full bg-(--color-border) h-2 rounded-full">
+              <div className="bg-(--color-tertiary) h-2 rounded-full w-[10%] transition-all duration-300"></div>
+            </div>
+            <p className='text-xs ml-2'>10%</p>
           </div>
-          <div className="flex items-center gap-5.5 mb-1">
-            <p className="text-xs text-tertiary">Interview</p>
-            <div className="w-full bg-(--color-border) h-2 rounded-full"></div>
+          <div className="flex items-center mb-2">
+            <p className="text-xs text-tertiary mr-5.5">Interview</p>
+            <div className="w-full bg-(--color-border) h-2 rounded-full">
+              <div className="bg-(--color-tertiary) h-2 rounded-full w-[67%] transition-all duration-300"></div>
+            </div>
+            <p className='text-xs ml-2'>67%</p>
           </div>
-          <div className="flex items-center gap-11.5 mb-1">
-            <p className="text-xs text-tertiary">Offer</p>
-            <div className="w-full bg-(--color-border) h-2 rounded-full"></div>
+          <div className="flex items-center mb-2">
+            <p className="text-xs text-tertiary mr-11.5">Offer</p>
+            <div className="w-full bg-(--color-border) h-2 rounded-full">
+              <div className="bg-(--color-tertiary) h-2 rounded-full w-[23%] transition-all duration-300"></div>
+            </div>
+            <p className='text-xs ml-2'>23%</p>
+          </div>
+          <div className="flex items-center">
+            <p className="text-xs text-tertiary mr-6.5">Rejected</p>
+            <div className="w-full bg-(--color-border) h-2 rounded-full">
+              <div className="bg-(--color-tertiary) h-2 rounded-full w-[97%] transition-all duration-300"></div>
+            </div>
+            <p className='text-xs ml-2'>97%</p>
           </div>
         </Card>
       </div>
     </div>
   )
 }
-
