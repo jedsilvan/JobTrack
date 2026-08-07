@@ -40,7 +40,7 @@ VALID_GRANULARITIES = {"week", "month", "year"}
 @router.get("/over-time")
 def get_stats_over_time(
     db: Session = Depends(get_db),
-    granularity: str = "week",
+    granularity: str = "month",
 ):
     """Get stats over time for Recharts use."""
     if granularity not in VALID_GRANULARITIES:

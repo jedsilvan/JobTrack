@@ -1,4 +1,7 @@
+import { CartesianGrid, Line, LineChart, XAxis, YAxis, Tooltip } from 'recharts'
+
 import Card from '../components/Card'
+import { mockStatsOverTimeMonthly } from '../mock'
 
 export default function Stats() {
   return (
@@ -25,12 +28,50 @@ export default function Stats() {
       <div className="mb-4">
         <Card>
           <p className="text-sm text-secondary mb-1">Applications over time</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
+          <LineChart
+            style={{ width: '99%', maxHeight: '20vh', aspectRatio: 1.5 }}
+            margin={{ top: 10, right: 0, left: -25, bottom: 0 }}
+            responsive
+            data={mockStatsOverTimeMonthly}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke="var(--color-secondary)"
+              strokeDasharray="5 5"
+              strokeOpacity={0.6}
+            />
+            <XAxis
+              dataKey="period"
+              padding={{ left: 0, right: 0 }}
+              tick={{ fontSize: 12, fill: 'var(--color-primary)' }}
+            />
+            <YAxis
+              dataKey="count"
+              width={50}
+              tickFormatter={(value) =>
+                value === 0 || value === '0' ? '' : value
+              }
+              tick={{ fontSize: 12, fill: 'var(--color-primary)' }}
+            />
+            <Tooltip
+              cursor={{
+                color: 'var(--color-primary)',
+                stroke: 'var(--color-border)',
+              }}
+              contentStyle={{
+                backgroundColor: 'var(--color-card)',
+                borderColor: 'var(--color-border)',
+                fontSize: 12,
+                borderRadius: 12,
+              }}
+            />
+            <Line
+              dataKey="count"
+              name="Applications"
+              stroke="var(--color-tertiary)"
+              strokeWidth={3}
+            />
+          </LineChart>
         </Card>
       </div>
       <div className="mb-4">
@@ -53,3 +94,4 @@ export default function Stats() {
     </div>
   )
 }
+
