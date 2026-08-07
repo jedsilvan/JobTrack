@@ -16,11 +16,13 @@ export type ApplicationStatus =
   (typeof ApplicationStatus)[keyof typeof ApplicationStatus]
 
 export type Application = {
-  company: string
-  role: string
-  status: ApplicationStatus
-  salary: number | null
-  notes: string | null
-  applied_date: string
-  id: number
+  id: number;
+  company: string;
+  role: string;
+  link?: string;
+  salary?: string;
+  notes?: string;
+  appliedDate: string;
+  status: ApplicationStatus;
+  tags: string[];
 }

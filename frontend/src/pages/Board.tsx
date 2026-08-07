@@ -10,7 +10,7 @@ import {
   APPLICATION_STATUS_OPTIONS,
   type Application,
 } from '../models'
-import { mockApplications } from '../mock'
+import { useApplications, useUpdateApplicationStatus } from '../api/useApplications'
 
 type BoardData = Record<ApplicationStatus, Application[]>
 
@@ -37,10 +37,19 @@ function resolveStatus(target: unknown): ApplicationStatus | undefined {
 }
 
 export default function Board() {
-  const [board, setBoard] = useState<BoardData>(() =>
-    groupByStatus(mockApplications),
-  )
+  const { data: applications, isLoading, isError } = useApplications()
+  const { mutate: updateStatus } = useUpdateApplicationStatus()
 
+  const [board, setBoard] = useState<BoardData>(() => groupByStatus([]))
+  const [prevApplications, setPrevApplications] = useState(applications)
+
+  if (applications !== prevApplications) {
+    setPrevApplications(applications)
+    setBoard(groupByStatus(applications ?? []))
+  }
+
+  if (isLoading) return <p className="text-sm text-secondary">Loading board…</p>
+  if (isError) return <p className="text-sm text-red-500">Couldn't load applications.</p>
   return (
     <DragDropProvider
       onDragOver={(event) => {
@@ -55,6 +64,9 @@ export default function Board() {
         const newStatus = resolveStatus(target)
         if (!newStatus) return
 
+        const previousStatus = source.data?.group as ApplicationStatus | undefined
+
+        // Update local board immediately so the card stays where it was dropped
         setBoard((prev) => {
           const next = { ...prev }
           next[newStatus] = next[newStatus].map((application) =>
@@ -64,6 +76,20 @@ export default function Board() {
           )
           return next
         })
+
+        // Only hit the server if the column actually changed
+        if (previousStatus !== newStatus) {
+          updateStatus(
+            { id: source.id as number, status: newStatus },
+            {
+              onError: () => {
+                // useUpdateApplicationStatus already rolls back the query
+                // cache; re-sync local board state to match
+                if (applications) setBoard(groupByStatus(applications))
+              },
+            },
+          )
+        }
       }}
     >
       <div className="container-max-w grid grid-cols-4 gap-4 mb-4 lg:mb-8">
