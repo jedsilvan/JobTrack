@@ -5,12 +5,12 @@ import { isSortable } from '@dnd-kit/react/sortable'
 import Draggable from '../components/Draggable'
 import Droppable from '../components/Droppable'
 import { ApplicationCard } from '../components/Card'
+import { useApplications, useUpdateApplicationStatus } from '../api/useApplications'
 import {
   ApplicationStatus,
   APPLICATION_STATUS_OPTIONS,
   type Application,
 } from '../models'
-import { useApplications, useUpdateApplicationStatus } from '../api/useApplications'
 
 type BoardData = Record<ApplicationStatus, Application[]>
 
@@ -40,12 +40,12 @@ export default function Board() {
   const { data: applications, isLoading, isError } = useApplications()
   const { mutate: updateStatus } = useUpdateApplicationStatus()
 
-  const [board, setBoard] = useState<BoardData>(() => groupByStatus([]))
+  const [board, setBoard] = useState<BoardData>(() => groupByStatus(applications ?? []))
   const [prevApplications, setPrevApplications] = useState(applications)
 
   if (applications !== prevApplications) {
     setPrevApplications(applications)
-    setBoard(groupByStatus(applications ?? []))
+    if (applications) setBoard(groupByStatus(applications))
   }
 
   if (isLoading) return <p className="container-max-w text-sm text-secondary">Loading board…</p>

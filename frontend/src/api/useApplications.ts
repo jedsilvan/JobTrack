@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { type Application, ApplicationStatus } from '../models';
 
@@ -26,6 +26,7 @@ export function useApplications() {
     queryKey: ['applications'],
     queryFn: fetchApplications,
     staleTime: 30_000,
+    placeholderData: keepPreviousData,
   });
 }
 
