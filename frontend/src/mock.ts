@@ -233,3 +233,81 @@ export const mockApplications: Application[] = [
     id: 25,
   },
 ]
+
+export const mockStats = {
+  total_applications: 25,
+  applications_by_status: {
+    applied: 9,
+    interview: 9,
+    offer: 1,
+    rejected: 6,
+  },
+  conversion_rate: 11.11,
+}
+
+export const mockStatsOverTime = [
+  {
+    period: '2026-07',
+    count: 1,
+  },
+  {
+    period: '2026-08',
+    count: 1,
+  },
+  {
+    period: '2026-10',
+    count: 2,
+  },
+  {
+    period: '2026-11',
+    count: 1,
+  },
+  {
+    period: '2026-12',
+    count: 1,
+  },
+  {
+    period: '2026-13',
+    count: 1,
+  },
+  {
+    period: '2026-14',
+    count: 2,
+  },
+  {
+    period: '2026-20',
+    count: 2,
+  },
+  {
+    period: '2026-21',
+    count: 2,
+  },
+  {
+    period: '2026-23',
+    count: 1,
+  },
+  {
+    period: '2026-24',
+    count: 2,
+  },
+  {
+    period: '2026-25',
+    count: 1,
+  },
+  {
+    period: '2026-26',
+    count: 1,
+  },
+  {
+    period: '2026-27',
+    count: 2,
+  },
+  {
+    period: '2026-28',
+    count: 1,
+  },
+  {
+    period: '2026-30',
+    count: 4,
+  },
+]
