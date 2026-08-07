@@ -48,8 +48,9 @@ export default function Board() {
     setBoard(groupByStatus(applications ?? []))
   }
 
-  if (isLoading) return <p className="text-sm text-secondary">Loading board…</p>
-  if (isError) return <p className="text-sm text-red-500">Couldn't load applications.</p>
+  if (isLoading) return <p className="container-max-w text-sm text-secondary">Loading board…</p>
+  if (isError) return <p className="container-max-w text-sm text-red-500">Couldn't load applications.</p>
+  
   return (
     <DragDropProvider
       onDragOver={(event) => {
