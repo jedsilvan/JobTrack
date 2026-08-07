@@ -8,7 +8,7 @@ from ..db import get_db
 router = APIRouter(prefix="/applications", tags=["applications"])
 
 
-@router.get("/", response_model=List[schemas.Application])
+@router.get("", response_model=List[schemas.Application])
 def list_applications(
     status: Optional[models.Status] = None,
     search: Optional[str] = None,
@@ -27,7 +27,7 @@ def get_application(application_id: int, db: Session = Depends(get_db)):
     return db_app
 
 
-@router.post("/", response_model=schemas.Application, status_code=201)
+@router.post("", response_model=schemas.Application, status_code=201)
 def create_application(app_data: schemas.ApplicationCreate, db: Session = Depends(get_db)):
     """Create a new application record."""
     return crud.create_application(db, app_data)

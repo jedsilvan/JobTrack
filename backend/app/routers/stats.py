@@ -8,7 +8,7 @@ from ..db import get_db
 router = APIRouter(prefix="/stats", tags=["stats"])
 
 
-@router.get("/", response_model=dict)
+@router.get("", response_model=dict)
 def get_stats(db: Session = Depends(get_db)):
     """Get analytics statistics."""
     total = db.query(func.count(models.Application.id)).scalar()

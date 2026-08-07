@@ -8,7 +8,7 @@ from .routers import applications, stats, tags
 # migrations instead of relying on this in production.
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="JobTrack API", version="1.0.0")
+app = FastAPI(title="JobTrack API", version="1.0.0", redirect_slashes=False)
 
 app.include_router(applications.router)
 app.include_router(stats.router)
