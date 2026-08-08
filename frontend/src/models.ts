@@ -22,7 +22,34 @@ export type Application = {
   link?: string
   salary?: string
   notes?: string
-  appliedDate: string
+  applied_date: string
   status: ApplicationStatus
   tags: string[]
 }
+
+export const StatsGranularity = {
+  Week: 'week',
+  Month: 'month',
+  Year: 'year',
+} as const
+
+export type StatsGranularity =
+  (typeof StatsGranularity)[keyof typeof StatsGranularity]
+
+export type Stats = {
+  total_applications: number
+  applications_by_status: {
+    applied: number
+    interview: number
+    offer: number
+    rejected: number
+  }
+  conversion_rate: number
+}
+
+export type StatsOverTime = {
+  period: string
+  count: number
+}
+
+export type StatsPercentages = Record<ApplicationStatus, number>

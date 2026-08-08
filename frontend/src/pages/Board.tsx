@@ -55,7 +55,7 @@ export default function Board() {
 
   if (isLoading)
     return (
-      <p className="container-max-w text-sm text-secondary">Loading board…</p>
+      <p className="container-max-w text-sm text-secondary">Loading board...</p>
     )
   if (isError)
     return (
