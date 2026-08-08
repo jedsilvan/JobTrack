@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel, Field, ConfigDict
 
 from .models import Status  # re-export the same enum used by the ORM model
@@ -9,9 +9,12 @@ class ApplicationBase(BaseModel):
     company: str = Field(..., min_length=1)
     role: str = Field(..., min_length=1)
     status: Status = Status.applied
-    salary: Optional[float] = None
-    notes: Optional[str] = None
+    job_link: Optional[str] = None
     applied_date: Optional[datetime] = None
+    salary: Optional[float] = None
+    offer_date: Optional[datetime] = None
+    response_deadline: Optional[datetime] = None
+    tags: Optional[List[str]] = [] 
 
 
 class ApplicationCreate(ApplicationBase):
@@ -25,7 +28,7 @@ class ApplicationUpdate(BaseModel):
     role: Optional[str] = Field(None, min_length=1)
     status: Optional[Status] = None
     salary: Optional[float] = None
-    notes: Optional[str] = None
+    tags: Optional[List[str]] = [] 
     applied_date: Optional[datetime] = None
 
 

@@ -57,6 +57,7 @@ export default function Board() {
     return (
       <p className="container-max-w text-sm text-secondary">Loading board...</p>
     )
+
   if (isError)
     return (
       <p className="container-max-w text-sm text-red-500">
@@ -127,7 +128,7 @@ export default function Board() {
                     index={index}
                     group={status}
                   >
-                    <ApplicationCard {...application} />
+                    <ApplicationCard application={application} />
                   </Draggable>
                 ))}
               </Droppable>

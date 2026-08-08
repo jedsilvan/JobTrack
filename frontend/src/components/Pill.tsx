@@ -1,4 +1,12 @@
-export default function Pill() {
+export default function Pill({
+  text,
+  variant = 'blue',
+}: {
+  text?: string
+  variant?: 'blue' | 'green' | 'red'
+}) {
+  if (!text) return
+
   const variants = {
     blue: 'bg-(--color-pill-bg-blue) text-pill-text-blue',
     green: 'bg-(--color-pill-bg-green) text-pill-text-green',
@@ -6,16 +14,8 @@ export default function Pill() {
   }
 
   return (
-    <span
-      className={`
-                inline-flex items-center justify-center
-                h-5 px-2
-                rounded-lg 
-                text-xs
-                ${variants.blue}
-            `}
-    >
-      <span className="pb-0.5">react</span>
+    <span className={`px-2 py-1 rounded-full text-[10px] ${variants[variant]}`}>
+      {text}
     </span>
   )
 }

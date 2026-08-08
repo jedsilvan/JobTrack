@@ -17,14 +17,16 @@ export type ApplicationStatus =
 
 export type Application = {
   id: number
-  company: string
-  role: string
-  link?: string
-  salary?: string
-  notes?: string
   applied_date: string
+  company: string
+  job_link?: string
+  notes?: string
+  offer_date?: string
+  response_deadline?: string
+  role: string
+  salary?: number
   status: ApplicationStatus
-  tags: string[]
+  tags?: string[]
 }
 
 export const StatsGranularity = {

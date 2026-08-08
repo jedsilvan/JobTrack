@@ -22,12 +22,7 @@ export default function Draggable({
   return (
     <div
       ref={ref}
-      className={`${className} ${isDragging ? 'opacity-50' : '1'} ${disabled ? 'cursor-default' : 'cursor-grab'} touch-none`}
-      style={{
-        opacity: isDragging ? 0.4 : 1,
-        cursor: disabled ? 'default' : 'grab',
-        touchAction: 'none',
-      }}
+      className={`${className} ${isDragging ? 'opacity-50' : '1'} touch-none`}
     >
       {children}
     </div>
