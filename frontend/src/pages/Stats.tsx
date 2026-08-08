@@ -88,28 +88,28 @@ export default function Stats() {
             <div className="w-full bg-(--color-border) h-2 rounded-full">
               <div className="bg-(--color-tertiary) h-2 rounded-full w-[10%] transition-all duration-300"></div>
             </div>
-            <p className='text-xs ml-2'>10%</p>
+            <p className="text-xs ml-2">10%</p>
           </div>
           <div className="flex items-center mb-2">
             <p className="text-xs text-tertiary mr-5.5">Interview</p>
             <div className="w-full bg-(--color-border) h-2 rounded-full">
               <div className="bg-(--color-tertiary) h-2 rounded-full w-[67%] transition-all duration-300"></div>
             </div>
-            <p className='text-xs ml-2'>67%</p>
+            <p className="text-xs ml-2">67%</p>
           </div>
           <div className="flex items-center mb-2">
             <p className="text-xs text-tertiary mr-11.5">Offer</p>
             <div className="w-full bg-(--color-border) h-2 rounded-full">
               <div className="bg-(--color-tertiary) h-2 rounded-full w-[23%] transition-all duration-300"></div>
             </div>
-            <p className='text-xs ml-2'>23%</p>
+            <p className="text-xs ml-2">23%</p>
           </div>
           <div className="flex items-center">
             <p className="text-xs text-tertiary mr-6.5">Rejected</p>
             <div className="w-full bg-(--color-border) h-2 rounded-full">
               <div className="bg-(--color-tertiary) h-2 rounded-full w-[97%] transition-all duration-300"></div>
             </div>
-            <p className='text-xs ml-2'>97%</p>
+            <p className="text-xs ml-2">97%</p>
           </div>
         </Card>
       </div>

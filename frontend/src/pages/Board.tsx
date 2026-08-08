@@ -5,7 +5,10 @@ import { isSortable } from '@dnd-kit/react/sortable'
 import Draggable from '../components/Draggable'
 import Droppable from '../components/Droppable'
 import { ApplicationCard } from '../components/Card'
-import { useApplications, useUpdateApplicationStatus } from '../api/useApplications'
+import {
+  useApplications,
+  useUpdateApplicationStatus,
+} from '../api/useApplications'
 import {
   ApplicationStatus,
   APPLICATION_STATUS_OPTIONS,
@@ -40,7 +43,9 @@ export default function Board() {
   const { data: applications, isLoading, isError } = useApplications()
   const { mutate: updateStatus } = useUpdateApplicationStatus()
 
-  const [board, setBoard] = useState<BoardData>(() => groupByStatus(applications ?? []))
+  const [board, setBoard] = useState<BoardData>(() =>
+    groupByStatus(applications ?? []),
+  )
   const [prevApplications, setPrevApplications] = useState(applications)
 
   if (applications !== prevApplications) {
@@ -48,9 +53,17 @@ export default function Board() {
     if (applications) setBoard(groupByStatus(applications))
   }
 
-  if (isLoading) return <p className="container-max-w text-sm text-secondary">Loading board…</p>
-  if (isError) return <p className="container-max-w text-sm text-red-500">Couldn't load applications.</p>
-  
+  if (isLoading)
+    return (
+      <p className="container-max-w text-sm text-secondary">Loading board…</p>
+    )
+  if (isError)
+    return (
+      <p className="container-max-w text-sm text-red-500">
+        Couldn't load applications.
+      </p>
+    )
+
   return (
     <DragDropProvider
       onDragOver={(event) => {
@@ -65,7 +78,8 @@ export default function Board() {
         const newStatus = resolveStatus(target)
         if (!newStatus) return
 
-        const previousStatus = source.data?.group as ApplicationStatus | undefined
+        const previousStatus = source.data?.group as
+          ApplicationStatus | undefined
 
         // Update local board immediately so the card stays where it was dropped
         setBoard((prev) => {
