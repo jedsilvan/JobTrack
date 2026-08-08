@@ -29,8 +29,6 @@ class Application(Base):
     response_deadline = Column(Date, nullable=True)
  
     # Simple list of strings, e.g. ["react", "typescript"].
-    # SQLAlchemy's JSON type stores this as TEXT on SQLite and
-    # json/jsonb on Postgres — works on both without extra config.
     tags = Column(JSON, nullable=False, server_default=sa.text("'[]'")) 
 
     def __repr__(self):
