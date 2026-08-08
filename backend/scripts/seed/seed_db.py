@@ -1,4 +1,3 @@
-# python3 -m scripts.seed_db
 import random
 from datetime import datetime, timedelta
 
