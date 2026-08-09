@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from typing import List, Optional
 from pydantic import BaseModel, Field, ConfigDict
 
@@ -10,11 +10,11 @@ class ApplicationBase(BaseModel):
     role: str = Field(..., min_length=1)
     status: Status = Status.applied
     job_link: Optional[str] = None
-    applied_date: Optional[datetime] = None
-    salary: Optional[float] = None
-    offer_date: Optional[datetime] = None
-    response_deadline: Optional[datetime] = None
-    tags: Optional[List[str]] = [] 
+    applied_date: Optional[date] = None
+    salary: Optional[int] = None
+    offer_date: Optional[date] = None
+    response_deadline: Optional[date] = None
+    tags: List[str] = Field(default_factory=list)
 
 
 class ApplicationCreate(ApplicationBase):
@@ -27,9 +27,12 @@ class ApplicationUpdate(BaseModel):
     company: Optional[str] = Field(None, min_length=1)
     role: Optional[str] = Field(None, min_length=1)
     status: Optional[Status] = None
-    salary: Optional[float] = None
-    tags: Optional[List[str]] = [] 
-    applied_date: Optional[datetime] = None
+    job_link: Optional[str] = None
+    salary: Optional[int] = None
+    tags: Optional[List[str]] = None
+    applied_date: Optional[date] = None
+    offer_date: Optional[date] = None
+    response_deadline: Optional[date] = None
 
 
 class Application(ApplicationBase):
