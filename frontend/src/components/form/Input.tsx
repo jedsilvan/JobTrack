@@ -22,7 +22,7 @@ const Input = ({
       )}
       <input
         type="text"
-        value={value}
+        value={String(value)}
         onChange={onChange}
         placeholder={placeholder}
         className={`${className} bg-(--color-card) border-1 border-border rounded-lg pt-1 pb-1.5 px-3 hover:border-secondary focus:border-secondary`}

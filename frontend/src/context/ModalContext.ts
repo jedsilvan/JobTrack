@@ -1,8 +1,14 @@
 import { createContext, useContext } from 'react'
+import type { Application } from '../models'
+
+export type ModalType =
+  'ADD_APPLICATION' | 'EDIT_APPLICATION' | 'OFFER_APPLICATION'
 
 export type ModalContextType = {
-  isModalOpen: boolean
-  toggleModal: () => void
+  activeModal: ModalType | null
+  modalApplication: Application | null
+  openModal: (type: ModalType, application?: Application) => void
+  closeModal: () => void
 }
 
 export const ModalContext = createContext<ModalContextType | undefined>(

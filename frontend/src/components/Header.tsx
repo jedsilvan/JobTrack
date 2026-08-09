@@ -1,12 +1,14 @@
+import { useState } from 'react'
 import { BriefcaseIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { useModalContext } from '../context/ModalContext'
 import Input from './form/Input'
 import Button from './form/Button'
 import Theme from './Theme'
-import ApplicationModal from './modal/ApplicationModal'
+import AddApplicationModal from './modal/AddApplicationModal'
 
 export default function Header() {
-  const { isModalOpen, toggleModal } = useModalContext()
+  const { openModal } = useModalContext()
+  const [searchTerm, setSearchTerm] = useState('')
 
   return (
     <header className="container-max-w flex justify-between items-center mt-4 lg:mt-8">
@@ -16,13 +18,17 @@ export default function Header() {
       </div>
       <div className="flex items-center gap-2">
         <Theme />
-        <Input placeholder="Search applications" />
-        <Button onClick={toggleModal}>
+        <Input
+          placeholder="Search applications"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <Button onClick={() => openModal('ADD_APPLICATION')}>
           <PlusIcon className="size-4 inline mb-0.5 mr-1" />
           Add application
         </Button>
       </div>
-      <ApplicationModal />
+      <AddApplicationModal />
     </header>
   )
 }

@@ -4,7 +4,7 @@ import {
   useStatsApplicationPercentages,
   useStatsOverTime,
 } from '../api/useStats'
-import Card from '../components/Card'
+import Card from '../components/card/Card'
 
 export default function Stats() {
   const {

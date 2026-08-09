@@ -1,29 +1,21 @@
-import { compactNumber } from '../utils/number'
-import { type Application, ApplicationStatus } from '../models'
-import Pill from './Pill'
-
-interface CardProps {
-  children?: React.ReactNode
-  className?: string
-}
-
-export default function Card({ children, className = '' }: CardProps) {
-  return (
-    <div
-      className={`bg-(--color-card) rounded-xl border border-solid border-border p-3 ${className}`}
-    >
-      {children}
-    </div>
-  )
-}
+import { compactNumber } from '../../utils/number'
+import { useModalContext } from '../../context/ModalContext'
+import { type Application, ApplicationStatus } from '../../models'
+import Pill from '../Pill'
 
 interface ApplicationCardProps {
   application: Application
 }
 
-export function ApplicationCard({ application }: ApplicationCardProps) {
+function ApplicationCard({ application }: ApplicationCardProps) {
+  const { openModal } = useModalContext()
+
   const handleClick = () => {
-    console.log('clicked')
+    if (application.status === ApplicationStatus.Offer) {
+      openModal('OFFER_APPLICATION', application)
+    } else {
+      openModal('EDIT_APPLICATION', application)
+    }
   }
 
   const isRejected = application.status === ApplicationStatus.Rejected
@@ -59,3 +51,5 @@ export function ApplicationCard({ application }: ApplicationCardProps) {
     </div>
   )
 }
+
+export default ApplicationCard

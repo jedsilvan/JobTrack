@@ -4,7 +4,9 @@ import { move } from '@dnd-kit/helpers'
 import { isSortable } from '@dnd-kit/react/sortable'
 import Draggable from '../components/Draggable'
 import Droppable from '../components/Droppable'
-import { ApplicationCard } from '../components/Card'
+import ApplicationCard from '../components/card/ApplicationCard'
+import OfferApplicationModal from '../components/modal/OfferApplicationModal'
+import EditApplicationModal from '../components/modal/EditApplicationModal'
 import {
   useApplications,
   useUpdateApplicationStatus,
@@ -66,76 +68,80 @@ export default function Board() {
     )
 
   return (
-    <DragDropProvider
-      onDragOver={(event) => {
-        setBoard((prev) => move(prev, event))
-      }}
-      onDragEnd={(event) => {
-        if (event.canceled) return
+    <>
+      <DragDropProvider
+        onDragOver={(event) => {
+          setBoard((prev) => move(prev, event))
+        }}
+        onDragEnd={(event) => {
+          if (event.canceled) return
 
-        const { source, target } = event.operation
-        if (!source || !target) return
+          const { source, target } = event.operation
+          if (!source || !target) return
 
-        const newStatus = resolveStatus(target)
-        if (!newStatus) return
+          const newStatus = resolveStatus(target)
+          if (!newStatus) return
 
-        const previousStatus = source.data?.group as
-          ApplicationStatus | undefined
+          const previousStatus = source.data?.group as
+            ApplicationStatus | undefined
 
-        // Update local board immediately so the card stays where it was dropped
-        setBoard((prev) => {
-          const next = { ...prev }
-          next[newStatus] = next[newStatus].map((application) =>
-            application.id === source.id
-              ? { ...application, status: newStatus }
-              : application,
-          )
-          return next
-        })
+          // Update local board immediately so the card stays where it was dropped
+          setBoard((prev) => {
+            const next = { ...prev }
+            next[newStatus] = next[newStatus].map((application) =>
+              application.id === source.id
+                ? { ...application, status: newStatus }
+                : application,
+            )
+            return next
+          })
 
-        // Only hit the server if the column actually changed
-        if (previousStatus !== newStatus) {
-          updateStatus(
-            { id: source.id as number, status: newStatus },
-            {
-              onError: () => {
-                // useUpdateApplicationStatus already rolls back the query
-                // cache; re-sync local board state to match
-                if (applications) setBoard(groupByStatus(applications))
+          // Only hit the server if the column actually changed
+          if (previousStatus !== newStatus) {
+            updateStatus(
+              { id: source.id as number, status: newStatus },
+              {
+                onError: () => {
+                  // useUpdateApplicationStatus already rolls back the query
+                  // cache; re-sync local board state to match
+                  if (applications) setBoard(groupByStatus(applications))
+                },
               },
-            },
-          )
-        }
-      }}
-    >
-      <div className="container-max-w grid grid-cols-4 gap-4 mb-4 lg:mb-8">
-        {APPLICATION_STATUS_OPTIONS.map(({ value: status, label }) => {
-          const columnApplications = board[status as ApplicationStatus]
+            )
+          }
+        }}
+      >
+        <div className="container-max-w grid grid-cols-4 gap-4 mb-4 lg:mb-8">
+          {APPLICATION_STATUS_OPTIONS.map(({ value: status, label }) => {
+            const columnApplications = board[status as ApplicationStatus]
 
-          return (
-            <div key={`column-${status}`}>
-              <div className="flex justify-between items-center mb-2">
-                <p className="text-sm font-medium text-secondary">{label}</p>
-                <p className="text-primary/50 text-sm bg-(--color-border)/50 rounded-md px-1 pb-0.5 text-xs">
-                  {columnApplications.length}
-                </p>
+            return (
+              <div key={`column-${status}`}>
+                <div className="flex justify-between items-center mb-2">
+                  <p className="text-sm font-medium text-secondary">{label}</p>
+                  <p className="text-primary/50 text-sm bg-(--color-border)/50 rounded-md px-1 pb-0.5 text-xs">
+                    {columnApplications.length}
+                  </p>
+                </div>
+                <Droppable id={status} className="flex flex-col gap-2">
+                  {columnApplications.map((application, index) => (
+                    <Draggable
+                      key={application.id}
+                      id={application.id}
+                      index={index}
+                      group={status}
+                    >
+                      <ApplicationCard application={application} />
+                    </Draggable>
+                  ))}
+                </Droppable>
               </div>
-              <Droppable id={status} className="flex flex-col gap-2">
-                {columnApplications.map((application, index) => (
-                  <Draggable
-                    key={application.id}
-                    id={application.id}
-                    index={index}
-                    group={status}
-                  >
-                    <ApplicationCard application={application} />
-                  </Draggable>
-                ))}
-              </Droppable>
-            </div>
-          )
-        })}
-      </div>
-    </DragDropProvider>
+            )
+          })}
+        </div>
+      </DragDropProvider>
+      <OfferApplicationModal />
+      <EditApplicationModal />
+    </>
   )
 }

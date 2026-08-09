@@ -3,7 +3,6 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import {
   APPLICATION_STATUS_OPTIONS,
   ApplicationStatus,
-  type Application,
 } from '../../models'
 import { useModalContext } from '../../context/ModalContext'
 import Input from '../form/Input'
@@ -13,20 +12,14 @@ import Dropdown from '../form/Dropdown'
 import Calendar from '../form/Calendar'
 import Modal from '../Modal'
 
-const ApplicationModal = ({
-  company,
-  role,
-  status = APPLICATION_STATUS_OPTIONS[0].value as ApplicationStatus,
-  job_link = '',
-  applied_date = new Date().toISOString().split('T')[0],
-}: Application) => {
+const AddApplicationModal = () => {
   const [formData, setFormData] = useState({
-    company,
-    role,
-    status,
-    job_link,
-    description: '',
-    applied_date,
+    company: '',
+    role: '',
+    status: APPLICATION_STATUS_OPTIONS[0].value as ApplicationStatus,
+    job_link: '',
+    applied_date: new Date().toISOString().split('T')[0],
+    description: ''
   })
 
   const handleChange = (key: string, value: string) => {
@@ -37,10 +30,14 @@ const ApplicationModal = ({
     console.log('Submitting application:', formData)
   }
 
-  const { isModalOpen, toggleModal } = useModalContext()
+  const { activeModal, closeModal } = useModalContext()
 
   return (
-    <Modal isOpen={isModalOpen} onClose={toggleModal} title="Add application">
+    <Modal
+      isOpen={activeModal === 'ADD_APPLICATION'}
+      onClose={closeModal}
+      title="Add application"
+    >
       <Input
         placeholder="e.g. Nimbus Labs"
         className="w-full mb-3"
@@ -69,9 +66,7 @@ const ApplicationModal = ({
           label="Applied date"
           className="w-50"
           value={formData.applied_date}
-          onChange={(date) =>
-            handleChange('applied_date', date)
-          }
+          onChange={(date) => handleChange('applied_date', date)}
         />
       </div>
       <Input
@@ -97,4 +92,4 @@ const ApplicationModal = ({
   )
 }
 
-export default ApplicationModal
+export default AddApplicationModal
