@@ -44,7 +44,7 @@ const Dropdown = ({
           onClick={toggleDropdown}
           className="pt-1 pb-1.5 px-3 cursor-pointer w-full text-left"
         >
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center capitalize">
             {selectedValue ? (
               selectedValue
             ) : (

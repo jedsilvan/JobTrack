@@ -1,10 +1,8 @@
-import React from 'react'
-
 interface CalendarProps {
   label?: string
   placeholder?: string
   value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
+  onChange: (date: string) => void
   className?: string
 }
 
@@ -15,8 +13,6 @@ const Calendar = ({
   placeholder,
   className,
 }: CalendarProps) => {
-  const today = new Date().toISOString().split('T')[0]
-
   return (
     <div className={`${className}`}>
       {label && (
@@ -25,8 +21,7 @@ const Calendar = ({
       <input
         type="date"
         value={value}
-        onChange={onChange}
-        defaultValue={today}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className="bg-(--color-card) w-full border-1 border-border rounded-lg pt-1 pb-1.5 px-3 hover:border-secondary focus:border-secondary"
       />
