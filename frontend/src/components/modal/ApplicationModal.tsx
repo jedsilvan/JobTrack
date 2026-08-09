@@ -7,12 +7,9 @@ import Dropdown from '../form/Dropdown'
 import Calendar from '../form/Calendar'
 import Modal from '../Modal'
 import { useModalContext } from '../../context/ModalContext'
-import { useEffect } from 'react'
 
 const ApplicationModal: React.FC = () => {
   const { isModalOpen, toggleModal } = useModalContext()
-
-  useEffect(() => console.log(isModalOpen, 'sdfsdfsdf'), [isModalOpen])
 
   return (
     <Modal isOpen={isModalOpen} onClose={toggleModal} title="Add application">

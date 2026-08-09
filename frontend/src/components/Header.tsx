@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { BriefcaseIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { useModalContext } from '../context/ModalContext'
 import Input from './form/Input'
@@ -8,8 +7,6 @@ import ApplicationModal from './modal/ApplicationModal'
 
 export default function Header() {
   const { isModalOpen, toggleModal } = useModalContext()
-
-  useEffect(() => console.log(isModalOpen, '123123123'), [isModalOpen])
 
   return (
     <header className="container-max-w flex justify-between items-center mt-4 lg:mt-8">
