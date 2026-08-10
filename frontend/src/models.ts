@@ -16,8 +16,8 @@ export type ApplicationStatus =
   (typeof ApplicationStatus)[keyof typeof ApplicationStatus]
 
 export type Application = {
-  id: number
-  applied_date: string
+  id?: number
+  applied_date?: string
   company: string
   job_link?: string
   notes?: string

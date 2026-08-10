@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline'
-import { APPLICATION_STATUS_OPTIONS, type ApplicationStatus } from '../../models'
+import {
+  APPLICATION_STATUS_OPTIONS,
+  type ApplicationStatus,
+} from '../../models'
 import { useModalContext } from '../../context/ModalContext'
 import Input from '../form/Input'
 import Button from '../form/Button'
@@ -25,9 +28,9 @@ const EditApplicationModal = () => {
   // Tracks which application's data is currently loaded into formData, so we
   // can tell "the modal just opened / switched applications" apart from
   // "the user is typing." null means "no application loaded yet" (create-new).
-  const [syncedApplicationId, setSyncedApplicationId] = useState<
-    number | null
-  >(null)
+  const [syncedApplicationId, setSyncedApplicationId] = useState<number | null>(
+    null,
+  )
 
   const targetApplicationId = modalApplication?.id ?? null
 

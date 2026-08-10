@@ -17,14 +17,23 @@ import {
   type Application,
 } from '../models'
 
-type BoardData = Record<ApplicationStatus, Application[]>
+type BoardApplication = Application & { id: number }
+type BoardData = Record<ApplicationStatus, BoardApplication[]>
+
+function hasId(app: Application): app is BoardApplication {
+  return app.id !== undefined
+}
 
 function groupByStatus(applications: Application[]): BoardData {
   const grouped = Object.fromEntries(
-    APPLICATION_STATUS_OPTIONS.map(({ value }) => [value, [] as Application[]]),
+    APPLICATION_STATUS_OPTIONS.map(({ value }) => [
+      value,
+      [] as BoardApplication[],
+    ]),
   ) as BoardData
 
   for (const application of applications) {
+    if (!hasId(application)) continue
     grouped[application.status].push(application)
   }
 
@@ -123,11 +132,15 @@ export default function Board() {
                     {columnApplications.length}
                   </p>
                 </div>
-                <Droppable id={status} className="flex flex-col gap-2">
+                <Droppable
+                  key={`droppable-${status}`}
+                  id={status}
+                  className="flex flex-col gap-2"
+                >
                   {columnApplications.map((application, index) => (
                     <Draggable
                       key={application.id}
-                      id={application.id}
+                      id={application.id!}
                       index={index}
                       group={status}
                     >
