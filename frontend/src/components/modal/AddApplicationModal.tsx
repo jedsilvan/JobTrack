@@ -34,15 +34,15 @@ const AddApplicationModal = () => {
   const handleSubmit = () => {
     const errors = {} as { company?: string; role?: string; status?: string }
 
-    // if (!formData.company) {
-    //   errors.company = 'Company is required'
-    // }
-    // if (!formData.role) {
-    //   errors.role = 'Role is required'
-    // }
-    // if (!formData.status) {
-    //   errors.status = 'Status is required'
-    // }
+    if (!formData.company) {
+      errors.company = 'Company is required'
+    }
+    if (!formData.role) {
+      errors.role = 'Role is required'
+    }
+    if (!formData.status) {
+      errors.status = 'Status is required'
+    }
 
     setValidationErrors(errors)
 

@@ -13,6 +13,20 @@ async function fetchApplications(): Promise<Application[]> {
   return await api.get<Application[]>('/applications')
 }
 
+async function createApplication(
+  applicationData: Application,
+): Promise<Application> {
+  return await api.post<Application>('/applications', applicationData)
+}
+
+async function updateApplication(
+  applicationData: Application,
+): Promise<Application> {
+  return await api.patch<Application>(`/applications/${applicationData.id}`, {
+    ...applicationData,
+  })
+}
+
 async function updateApplicationStatus(
   id: number,
   status: ApplicationStatus,
@@ -20,53 +34,12 @@ async function updateApplicationStatus(
   return await api.patch<Application>(`/applications/${id}`, { status })
 }
 
-// Create a new application
-async function createApplication(
-  applicationData: Application,
-): Promise<Application> {
-  return await api.post<Application>('/applications', applicationData)
-}
-
-// Fetch + cache the board's applications
 export function useApplications() {
   return useQuery({
     queryKey: ['applications'],
     queryFn: fetchApplications,
     staleTime: 30_000,
     placeholderData: keepPreviousData,
-  })
-}
-
-// Drag a card to a new column -> optimistic PATCH with rollback on failure
-export function useUpdateApplicationStatus() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: ({ id, status }: { id: number; status: ApplicationStatus }) =>
-      updateApplicationStatus(id, status),
-
-    onMutate: async ({ id, status }) => {
-      await queryClient.cancelQueries({ queryKey: ['applications'] })
-
-      const previous = queryClient.getQueryData<Application[]>(['applications'])
-
-      queryClient.setQueryData<Application[]>(['applications'], (old) =>
-        old?.map((app) => (app.id === id ? { ...app, status } : app)),
-      )
-
-      return { previous }
-    },
-
-    onError: (_err, _vars, context) => {
-      // Roll back the optimistic move if the PATCH fails
-      if (context?.previous) {
-        queryClient.setQueryData(['applications'], context.previous)
-      }
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['applications'] })
-    },
   })
 }
 
@@ -104,6 +77,81 @@ export function useCreateApplication() {
       }
 
       showToast('There was an error creating your application', 'error')
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['applications'] })
+    },
+  })
+}
+
+// Update an application -> via form modal with optimistic PATCH and rollback on failure
+export function useUpdateApplication() {
+  const { showToast } = useToastContext()
+  const { closeModal } = useModalContext()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (newApplication: Application) =>
+      updateApplication(newApplication),
+
+    onMutate: async (newApplication) => {
+      await queryClient.cancelQueries({ queryKey: ['applications'] })
+
+      const previous = queryClient.getQueryData<Application[]>(['applications'])
+
+      queryClient.setQueryData<Application[]>(['applications'], (old) =>
+        old?.map((app) => (app.id === newApplication.id ? { ...app } : app)),
+      )
+
+      return { previous }
+    },
+
+    onSuccess: () => {
+      showToast('Application updated successfully', 'success')
+      closeModal()
+    },
+
+    onError: (_err, _vars, context) => {
+      // Roll back the optimistic move if the PATCH fails
+      if (context?.previous) {
+        queryClient.setQueryData(['applications'], context.previous)
+      }
+
+      showToast('There was an error updating your application', 'error')
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['applications'] })
+    },
+  })
+}
+
+// Drag a card to a new column -> optimistic PATCH with rollback on failure
+export function useUpdateApplicationStatus() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: number; status: ApplicationStatus }) =>
+      updateApplicationStatus(id, status),
+
+    onMutate: async ({ id, status }) => {
+      await queryClient.cancelQueries({ queryKey: ['applications'] })
+
+      const previous = queryClient.getQueryData<Application[]>(['applications'])
+
+      queryClient.setQueryData<Application[]>(['applications'], (old) =>
+        old?.map((app) => (app.id === id ? { ...app, status } : app)),
+      )
+
+      return { previous }
+    },
+
+    onError: (_err, _vars, context) => {
+      // Roll back the optimistic move if the PATCH fails
+      if (context?.previous) {
+        queryClient.setQueryData(['applications'], context.previous)
+      }
     },
 
     onSettled: () => {

@@ -3,9 +3,10 @@ import React from 'react'
 interface InputProps {
   label?: string
   placeholder?: string
-  value: string
+  value: string | number
   onChange: React.ChangeEventHandler<HTMLInputElement>
   className?: string
+  type?: 'text' | 'number'
 }
 
 const Input = ({
@@ -14,6 +15,7 @@ const Input = ({
   onChange,
   placeholder,
   className,
+  type = 'text',
 }: InputProps) => {
   return (
     <div>
@@ -21,7 +23,7 @@ const Input = ({
         <label className="block text-xs text-tertiary mb-1">{label}</label>
       )}
       <input
-        type="text"
+        type={type}
         value={String(value)}
         onChange={onChange}
         placeholder={placeholder}

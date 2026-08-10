@@ -5,6 +5,7 @@ import {
   type ApplicationStatus,
 } from '../../models'
 import { useModalContext } from '../../context/ModalContext'
+import { useUpdateApplication } from '../../api/useApplications'
 import Input from '../form/Input'
 import Button from '../form/Button'
 import TextArea from '../form/TextArea'
@@ -22,8 +23,13 @@ const EMPTY_FORM = {
 }
 
 const EditApplicationModal = () => {
+  const { mutate: updateUplication, isPending } = useUpdateApplication()
   const { activeModal, modalApplication, closeModal } = useModalContext()
   const [formData, setFormData] = useState(EMPTY_FORM)
+
+  const [validationErrors, setValidationErrors] = useState(
+    {} as { company?: string; role?: string; status?: string },
+  )
 
   // Tracks which application's data is currently loaded into formData, so we
   // can tell "the modal just opened / switched applications" apart from
@@ -61,16 +67,37 @@ const EditApplicationModal = () => {
     )
   }
 
-  console.log(modalApplication)
-
   const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }))
   }
 
   const handleSubmit = () => {
-    console.log('Submitting application:', formData)
-    // TODO: call useUpdateApplication / useCreateApplication depending on
-    // whether modalApplication is set, then closeModal()
+    const errors = {} as { company?: string; role?: string; status?: string }
+
+    if (!formData.company) {
+      errors.company = 'Company is required'
+    }
+    if (!formData.role) {
+      errors.role = 'Role is required'
+    }
+    if (!formData.status) {
+      errors.status = 'Status is required'
+    }
+
+    setValidationErrors(errors)
+
+    if (Object.keys(errors).length === 0) {
+      const { company, role, status, job_link, applied_date } = formData
+
+      updateUplication({
+        id: modalApplication?.id,
+        company,
+        role,
+        status,
+        job_link,
+        applied_date,
+      })
+    }
   }
 
   return (
@@ -79,27 +106,37 @@ const EditApplicationModal = () => {
       onClose={closeModal}
       title={modalApplication ? 'Update application' : 'Add application'}
     >
-      <Input
-        placeholder="e.g. Nimbus Labs"
-        className="w-full mb-3"
-        label="Company"
-        value={formData.company}
-        onChange={(e) => handleChange('company', e.target.value)}
-      />
-      <Input
-        placeholder="e.g. Frontend engineer"
-        className="w-full mb-3"
-        label="Role"
-        value={formData.role}
-        onChange={(e) => handleChange('role', e.target.value)}
-      />
+      <div className="mb-3">
+        <Input
+          placeholder="e.g. Nimbus Labs"
+          className={`w-full ${validationErrors.company && 'border-red-500'}`}
+          label="Company"
+          value={formData.company}
+          onChange={(e) => handleChange('company', e.target.value)}
+        />
+        {validationErrors.company && (
+          <p className="text-red-500 text-xs mt-1">Company is required</p>
+        )}
+      </div>
+      <div className="mb-3">
+        <Input
+          placeholder="e.g. Frontend engineer"
+          className={`w-full ${validationErrors.role && 'border-red-500'}`}
+          label="Role"
+          value={formData.role}
+          onChange={(e) => handleChange('role', e.target.value)}
+        />
+        {validationErrors.role && (
+          <p className="text-red-500 text-xs mt-1">Role is required</p>
+        )}
+      </div>
       <div className="flex gap-2 mb-3">
         <div className="w-50">
           <Dropdown
             options={APPLICATION_STATUS_OPTIONS}
             selectedValue={formData.status}
             label="Status"
-            className="w-full"
+            className={`w-full ${validationErrors.status && 'border-red-500'}`}
             onChange={(value) => handleChange('status', value)}
           />
         </div>
@@ -125,9 +162,14 @@ const EditApplicationModal = () => {
         onChange={(e) => handleChange('description', e.target.value)}
       />
       {/* TODO: generate tags here using pills */}
-      <Button type="submit" className="w-full mb-2" onClick={handleSubmit}>
-        <ArrowUpTrayIcon className="size-4 inline mb-0.5 mr-2" />
-        {modalApplication ? 'Update application' : 'Add application'}
+      <Button
+        type="submit"
+        className="w-full mb-2"
+        onClick={handleSubmit}
+        icon={<ArrowUpTrayIcon className="size-4 inline mb-0.5 mr-2" />}
+        isLoading={isPending}
+      >
+        Update application
       </Button>
     </Modal>
   )
