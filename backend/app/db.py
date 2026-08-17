@@ -1,6 +1,7 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-
 
 # Start: SQLite configuration (commented out for production PostgreSQL use)
 # SQLALCHEMY_DATABASE_URL = "sqlite:///./jobtrack.db"
@@ -11,8 +12,10 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 # )
 # End: SQLite configuration
 
-# SQLALCHEMY_DATABASE_URL = "postgresql://admin:admin@localhost:5432/jobtrack" # psycopg2 driver
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg://admin:admin@localhost:5432/jobtrack"  # psycopg (v3) driver
+SQLALCHEMY_DATABASE_URL = os.environ.get(
+    "DATABASE_URL",
+    "postgresql+psycopg://admin:admin@localhost:5432/jobtrack",  # fallback for local/non-Docker dev
+)
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
